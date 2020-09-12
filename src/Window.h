@@ -14,6 +14,8 @@ public:
     Window(std::string PathToBin, Camera* Player = nullptr ,int width = 680,
     int height = 480, int mousesensitivity = 1.0f, float fov = 65.0f);
 
+    ~Window();
+
     void InputHandle();
 
     static void mouse_callback(GLFWwindow* window, double xpos, double ypos);

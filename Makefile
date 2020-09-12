@@ -13,7 +13,7 @@ UNDEF		:=
 BUILD		:= $(DEBUG)
 LINKTYPE	:= $(STATIC)
 
-CXX_FLAGS 	:= -std=c++17  $(BUILD) $(LINKTYPE) -lglfw -lX11 -lpthread -ldl
+CXX_FLAGS 	:= -std=c++17  $(BUILD) $(LINKTYPE) -lglfw -lGL -lX11 -lpthread -ldl -lGLEW
 CXX			:= g++
 
 BIN			:= bin
@@ -45,12 +45,12 @@ FirstOBJ	:= $(patsubst $(SRC)/%,$(OBJ)/$(PLATFORM)/%,$(FirstSRC:.cpp=.o))
 ALLOBJECTS 	:= $(FirstOBJ)
 #to add folders call tmpOBJ with path to file 
 #relative to make file -> $(call tmpOBJ,test)
-
-#tmpSRC_O	:= $(call AddDir,ResourceManege)
-#ALLOBJECTS += $(tmpSRC_O:.cpp=.o)
+#tmpSRC_O		:= $(call AddDir,ResourceManege)
+#ALLOBJECTS 	+= $(tmpSRC_O:.cpp=.o)
 
 
 # Compile only. (add compile rules for each dir you added)
+
 
 $(OBJ)/$(PLATFORM)%.o : $(SRC)%.cpp $(DEPENDENCIES)
 	$(CXX) $(CXX_FLAGS) $(INC_FLAG) -c -o $@ $<

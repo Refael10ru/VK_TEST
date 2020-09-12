@@ -3,46 +3,6 @@
 
 namespace okek
 {
-void Window::InputHandle()
-{ 
-this->deltatime = glfwGetTime() - this->lastframe;
-this->lastframe = glfwGetTime();
-float cameraSpeed = 4.5f * this->deltatime;
-if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    this->player->position += cameraSpeed * glm::normalize(player->Front);
-if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    player->position -= cameraSpeed * glm::normalize(player->Front);
-if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    player->position -= glm::normalize(glm::cross(player->Front, player->Up)) * cameraSpeed;
-if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    player->position += glm::normalize(glm::cross(player->Front, player->Up)) * cameraSpeed;
-
-if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, true);
-
-if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
-if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-    player->position -= player->Up* cameraSpeed;
-
-if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-    player->position += player->Up* cameraSpeed;
-    //resrt...
-    
-if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-    {
-    player->position = glm::vec3(0,0,4);
-    player->Yaw = 0;
-    player->Pitch = 0;
-    }
-    
-    player->updateCameraVectors();
-}
-
-
 Window::Window(std::string pathtobin, Camera* Player,int width,
 int height, int mousesensitivity, float fov)
 {   
@@ -89,6 +49,51 @@ int height, int mousesensitivity, float fov)
     printf("Renderer: %s\n", renderer);
     printf("OpenGL version supported %s\n", version);*/
 }
+Window::~Window()
+{
+    glfwDestroyWindow(this->window);
+    
+}
+
+void Window::InputHandle()
+{ 
+this->deltatime = glfwGetTime() - this->lastframe;
+this->lastframe = glfwGetTime();
+float cameraSpeed = 4.5f * this->deltatime;
+if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    this->player->position += cameraSpeed * glm::normalize(player->Front);
+if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    player->position -= cameraSpeed * glm::normalize(player->Front);
+if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    player->position -= glm::normalize(glm::cross(player->Front, player->Up)) * cameraSpeed;
+if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    player->position += glm::normalize(glm::cross(player->Front, player->Up)) * cameraSpeed;
+
+if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, true);
+
+if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+    player->position -= player->Up* cameraSpeed;
+
+if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    player->position += player->Up* cameraSpeed;
+    //resrt...
+    
+if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+    {
+    player->position = glm::vec3(0,0,4);
+    player->Yaw = 0;
+    player->Pitch = 0;
+    }
+    
+    player->updateCameraVectors();
+}
+
 
 void Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 { reinterpret_cast<Window*>(glfwGetWindowUserPointer(window))->ProcessMouseMovement(xpos,ypos);}

@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/media/okek/main/Vulcan_test/build",
-  "command": "/usr/bin/g++-7    -g   -o CMakeFiles/VK_TEST.dir/main.cpp.o -c /media/okek/main/Vulcan_test/main.cpp",
-  "file": "/media/okek/main/Vulcan_test/main.cpp"
-}
-]

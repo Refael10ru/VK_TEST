@@ -1,19 +1,21 @@
 #-------------------------------------->
 #credit to moros1138#4147 (discord name)
 #-------------------------------------->
-PROJECT     :=  WallPaperLogic
+PROJECT     :=  WallPaperLogic.exe
 
 RELEASE		:= -O3
-DEBUG		:= -ggdb3 -Og -C
+DEBUG		:= -ggdb3 -Og -C -E
 
-STATIC		:= -Bstatic -static-libgcc -static-libstdc++
+#STATIC		:= -Bstatic -static-libgcc -static-libstdc++
 DYNAMIC		:= -static-libstdc++
 UNDEF		:=
 
 BUILD		:= $(DEBUG)
 LINKTYPE	:= $(STATIC)
 
-CXX_FLAGS 	:= -std=c++17  $(BUILD) $(LINKTYPE) -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan
+#Standard	:= -std=c++17
+
+CXX_FLAGS 	:= $(Standard) $(BUILD) $(LINKTYPE) -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan
 CXX			:= g++
 
 BIN			:= bin
@@ -31,7 +33,7 @@ LIB_FLAG	:= -L$(LIB)
 
 EXECUTABLE		:= $(PROJECT)
 LIBRARIES		:= 
-PLATFORM		:= linux
+PLATFORM		:= Windows
 CLEAN_COMMAND 	:= -rm -r $(BIN)/* $(OBJ)/*/*
 LINK_FLAGS		:= 
 
@@ -69,4 +71,4 @@ clean:
 clear:
 	$(CLEAN_COMMAND)
 test:
-	g++ -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan test.cpp & ./a.out
+	g++ -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan -o a.exe test.cpp & ./a.exe

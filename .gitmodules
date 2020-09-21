@@ -1,0 +1,3 @@
+[submodule "extern/Vulkan"]
+	path = extern/Vulkan
+	url = https://github.com/KhronosGroup/Vulkan-Headers

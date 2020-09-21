@@ -1,12 +1,12 @@
 
-#include "Window.h"
+#include "Window.hpp"
 
 namespace okek
 {
-Window::Window(std::string pathtobin, Camera* Player,int width,
+Window::Window(std::string name, std::string pathtobin, Camera* Player,int width,
 int height, int mousesensitivity, float fov)
 {   
-    
+    this->name = name;
     this->FOV = fov;
     this->MouseSensitivity = mousesensitivity;
     this->Width = width;
@@ -27,7 +27,7 @@ int height, int mousesensitivity, float fov)
     this->PathToBin = pathtobin;
 
 
-    this->window = glfwCreateWindow(Width, Height, "VKEngine", NULL, NULL);
+    this->window = glfwCreateWindow(Width, Height, name.c_str(), NULL, NULL);
     if (!window) {
     fprintf(stderr, "ERROR: could not open window with GLFW3\n");
     glfwTerminate();
@@ -60,6 +60,8 @@ void Window::InputHandle()
 this->deltatime = glfwGetTime() - this->lastframe;
 this->lastframe = glfwGetTime();
 float cameraSpeed = 4.5f * this->deltatime;
+if(player != nullptr)
+{
 if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     this->player->position += cameraSpeed * glm::normalize(player->Front);
 if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -69,13 +71,7 @@ if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     player->position += glm::normalize(glm::cross(player->Front, player->Up)) * cameraSpeed;
 
-if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, true);
 
-if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
     player->position -= player->Up* cameraSpeed;
@@ -83,17 +79,25 @@ if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     player->position += player->Up* cameraSpeed;
     //resrt...
-    
-if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+
+    if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
     {
-    player->position = glm::vec3(0,0,4);
-    player->Yaw = 0;
-    player->Pitch = 0;
+    
+        player->position = glm::vec3(0,0,4);
+        player->Yaw = 0;
+        player->Pitch = 0;
     }
     
+    
     player->updateCameraVectors();
+    }
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        glfwSetInputMode(this->window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
-
 
 void Window::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 { reinterpret_cast<Window*>(glfwGetWindowUserPointer(window))->ProcessMouseMovement(xpos,ypos);}
@@ -127,12 +131,10 @@ void Window::ProcessMouseMovement(float xpos, float ypos)
             player->updateCameraVectors();
         }
     }
-
 void Window::FrameBufferSizeCallBack(GLFWwindow* window, int width, int height)
 { reinterpret_cast<Window*>(glfwGetWindowUserPointer(window))->SizeChanged(window,width,height); }
 void Window::SizeChanged(GLFWwindow* window, int width, int height)
 {   }
-
 void Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 { reinterpret_cast<Window*>(glfwGetWindowUserPointer(window))->scroll(xoffset,yoffset);}
 void Window::scroll(double xoffset, double yoffset)
@@ -143,4 +145,26 @@ void Window::scroll(double xoffset, double yoffset)
     if (FOV > 75.0f)
         FOV = 75.0f; 
 }
+int Window::initWindow() 
+{
+    int tmp = glfwInit();
+
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    return tmp;
+}
+
+void Window::GetWindowsSurface(VkSurfaceKHR* surface)
+{
+    #if (defined (_WIN32) || defined (_WIN64))
+
+        std::cout << "I'm on Windows!" << std::endl;
+
+    #elif (defined (LINUX) || defined (__linux__))
+    
+        std::cout << "I'm on Linux!" << std::endl;
+
+    #endif
+}
+
 };

@@ -1,9 +1,10 @@
 #ifndef _WINDOW_
 #define _WINDOW_
 
+#include "../extern/Vulkan/include/vulkan/vulkan.h"
 #include "../extern/glfw/include/GLFW/glfw3.h" // GLFW helper library
 #include <string>
-#include "Camera.h"
+#include "Camera.hpp"
 
 namespace okek
 {
@@ -11,7 +12,7 @@ namespace okek
     {
 friend class GLFWwindow;
 public:
-    Window(std::string PathToBin, Camera* Player = nullptr ,int width = 680,
+    Window(std::string name = "oke!", std::string PathToBin = std::string(), Camera* Player = nullptr ,int width = 680,
     int height = 480, int mousesensitivity = 1.0f, float fov = 65.0f);
 
     ~Window();
@@ -30,8 +31,12 @@ public:
 
     void ProcessMouseMovement(float xoffset, float yoffset);
 
+    void GetWindowsSurface(VkSurfaceKHR* surface);
+
     inline GLFWwindow* GetWindow() { return window; }
     inline std::string GetPath() { return PathToBin; }
+
+    static int initWindow();
 protected:
 
     GLFWwindow* window;
@@ -50,6 +55,7 @@ protected:
     float MouseSensitivity;
     bool first;
 
+    std::string name;
     std::string PathToBin;
     };
 };

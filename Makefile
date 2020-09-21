@@ -13,7 +13,7 @@ UNDEF		:=
 BUILD		:= $(DEBUG)
 LINKTYPE	:= $(STATIC)
 
-CXX_FLAGS 	:= -std=c++17  $(BUILD) $(LINKTYPE) -lglfw -lGL -lX11 -lpthread -ldl -lGLEW
+CXX_FLAGS 	:= -std=c++17  $(BUILD) $(LINKTYPE) -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan
 CXX			:= g++
 
 BIN			:= bin
@@ -68,3 +68,5 @@ clean:
 	$(CLEAN_COMMAND)
 clear:
 	$(CLEAN_COMMAND)
+test:
+	g++ -lglfw -lX11 -lpthread -ldl -lGLEW -lvulkan test.cpp & ./a.out

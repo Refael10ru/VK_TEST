@@ -1,7 +1,7 @@
 #ifndef _CAMERA_
 #define _CAMERA_
 
-#include "typedef.h"
+#include "typedef.hpp"
 
 namespace okek 
 {

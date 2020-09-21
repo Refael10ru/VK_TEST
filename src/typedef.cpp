@@ -1,7 +1,6 @@
 
 
-#include "typedef.h"
-#include <GL/glew.h>
+#include "typedef.hpp"
 
 
 namespace okek
